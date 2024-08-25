@@ -1,0 +1,178 @@
+/* Ericka Garcia Ortiz  Seccion 0541 */
+
+USE [master]
+GO
+/****** Object:  Database [GestionDeClubes]    Script Date: 08/05/2024 18:33:04 ******/
+CREATE DATABASE [GestionDeClubes] ON  PRIMARY 
+( NAME = N'GestionDeClubes', FILENAME = N'c:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\GestionDeClubes.mdf' , SIZE = 2304KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'GestionDeClubes_log', FILENAME = N'c:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\GestionDeClubes_log.LDF' , SIZE = 576KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [GestionDeClubes] SET COMPATIBILITY_LEVEL = 100
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [GestionDeClubes].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [GestionDeClubes] SET ANSI_NULL_DEFAULT OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET ANSI_NULLS OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET ANSI_PADDING OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET ANSI_WARNINGS OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET ARITHABORT OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET AUTO_CLOSE ON
+GO
+ALTER DATABASE [GestionDeClubes] SET AUTO_CREATE_STATISTICS ON
+GO
+ALTER DATABASE [GestionDeClubes] SET AUTO_SHRINK OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET AUTO_UPDATE_STATISTICS ON
+GO
+ALTER DATABASE [GestionDeClubes] SET CURSOR_CLOSE_ON_COMMIT OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET CURSOR_DEFAULT  GLOBAL
+GO
+ALTER DATABASE [GestionDeClubes] SET CONCAT_NULL_YIELDS_NULL OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET NUMERIC_ROUNDABORT OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET QUOTED_IDENTIFIER OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET RECURSIVE_TRIGGERS OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET  ENABLE_BROKER
+GO
+ALTER DATABASE [GestionDeClubes] SET AUTO_UPDATE_STATISTICS_ASYNC OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET DATE_CORRELATION_OPTIMIZATION OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET TRUSTWORTHY OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET ALLOW_SNAPSHOT_ISOLATION OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET PARAMETERIZATION SIMPLE
+GO
+ALTER DATABASE [GestionDeClubes] SET READ_COMMITTED_SNAPSHOT OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET HONOR_BROKER_PRIORITY OFF
+GO
+ALTER DATABASE [GestionDeClubes] SET  READ_WRITE
+GO
+ALTER DATABASE [GestionDeClubes] SET RECOVERY SIMPLE
+GO
+ALTER DATABASE [GestionDeClubes] SET  MULTI_USER
+GO
+ALTER DATABASE [GestionDeClubes] SET PAGE_VERIFY CHECKSUM
+GO
+ALTER DATABASE [GestionDeClubes] SET DB_CHAINING OFF
+GO
+USE [GestionDeClubes]
+GO
+/****** Object:  Table [dbo].[Autores]    Script Date: 08/05/2024 18:33:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Autores](
+	[AutorID] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [nvarchar](100) NOT NULL,
+	[Nacionalidad] [nvarchar](50) NULL,
+	[FechaNacimiento] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AutorID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Miembros]    Script Date: 08/05/2024 18:33:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Miembros](
+	[MiembroID] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [nvarchar](100) NOT NULL,
+	[Email] [nvarchar](100) NOT NULL,
+	[FechaRegistro] [date] NULL,
+	[TipoMembresia] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MiembroID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[Email] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Libros]    Script Date: 08/05/2024 18:33:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Libros](
+	[LibroID] [int] IDENTITY(1,1) NOT NULL,
+	[Titulo] [nvarchar](200) NOT NULL,
+	[AutorID] [int] NULL,
+	[Genero] [nvarchar](50) NULL,
+	[FechaPublicacion] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LibroID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Reuniones]    Script Date: 08/05/2024 18:33:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Reuniones](
+	[ReunionesID] [int] IDENTITY(1,1) NOT NULL,
+	[FechaReunion] [date] NOT NULL,
+	[Lugar] [nvarchar](100) NULL,
+	[LibroID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ReunionesID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Discusiones]    Script Date: 08/05/2024 18:33:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Discusiones](
+	[DiscusionID] [int] IDENTITY(1,1) NOT NULL,
+	[ReunionesID] [int] NULL,
+	[MiembroID] [int] NULL,
+	[Comentario] [nvarchar](max) NULL,
+	[FechaComentario] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DiscusionID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  ForeignKey [FK__Libros__AutorID__0519C6AF]    Script Date: 08/05/2024 18:33:05 ******/
+ALTER TABLE [dbo].[Libros]  WITH CHECK ADD FOREIGN KEY([AutorID])
+REFERENCES [dbo].[Autores] ([AutorID])
+GO
+/****** Object:  ForeignKey [FK__Reuniones__Libro__108B795B]    Script Date: 08/05/2024 18:33:05 ******/
+ALTER TABLE [dbo].[Reuniones]  WITH CHECK ADD FOREIGN KEY([LibroID])
+REFERENCES [dbo].[Libros] ([LibroID])
+GO
+/****** Object:  ForeignKey [FK__Discusion__Miemb__164452B1]    Script Date: 08/05/2024 18:33:05 ******/
+ALTER TABLE [dbo].[Discusiones]  WITH CHECK ADD FOREIGN KEY([MiembroID])
+REFERENCES [dbo].[Miembros] ([MiembroID])
+GO
+/****** Object:  ForeignKey [FK__Discusion__Reuni__15502E78]    Script Date: 08/05/2024 18:33:05 ******/
+ALTER TABLE [dbo].[Discusiones]  WITH CHECK ADD FOREIGN KEY([ReunionesID])
+REFERENCES [dbo].[Reuniones] ([ReunionesID])
+GO
